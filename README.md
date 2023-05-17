@@ -7,7 +7,7 @@ Here's the definition of binary trees:
 ```
 class Tree {}
 class Leaf extends Tree {}
-class Branch extends Tree { constructor(left,right) {} }
+class Branch extends Tree { constructor(left,right) {} } 
 ```
 
 And here are the functions you need to define:
@@ -30,3 +30,35 @@ parensToTree(treeToParens(tree)) === tree
     \
     There is more than one possible answer to this puzzle! There are number of different ways to "encode" a tree as a string of parentheses. Any solution that follows the laws above will be accepted. \
    
+   
+   
+   //**************************************************************************************************
+   
+   
+   
+class Tree {}
+class Leaf extends Tree {}
+class Branch extends Tree { constructor(left,right) {
+    super();
+    this.left=left;
+    this.right=right;
+} }
+
+const treeToParens = tree => (tree instanceof Leaf) ? '': '(' + treeToParens(tree.left) + ')' + treeToParens(tree.right);
+const parensToTree=(parens)=> {
+  if (parens == '') return new Leaf();
+  let lvl = 0, pos = 0;
+  for (;;) {
+    lvl += parens[pos++] == '(' ? 1 : -1;
+    if (lvl == 0) break;
+  }
+  return new Branch(parensToTree(parens.slice(1, pos - 1)), parensToTree(parens.slice(pos)));
+}
+
+let b=new Branch(new Branch(new Leaf(),new Leaf()),new Branch(new Leaf(),new Leaf()));
+
+const str=treeToParens(b);
+console.log(parensToTree(str))
+
+     }
+}
